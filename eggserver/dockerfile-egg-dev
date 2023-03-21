@@ -1,0 +1,7 @@
+FROM node:10.17.0
+MAINTAINER yujunmiao
+RUN mkdir -p /home/nodejs/egg/start-with-egg-dev/
+WORKDIR /home/nodejs/egg/start-with-egg-dev/
+COPY ./eggserver /home/nodejs/egg/start-with-egg-dev/
+EXPOSE 7001
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,51 @@
+version: "3"
+networks:
+  app-tier:
+    driver: bridge
+services:
+  mysqlserver-dev:
+    image: mysql:5.7
+    container_name: mysqlserver-dev
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    networks:
+      - app-tier
+    ports:
+      - '3307:3306'
+    volumes:
+      - "./mysql/dev/db:/var/lib/mysql"
+      - "./mysql/dev/conf/my.cnf:/etc/my.cnf"
+      - "./mysql/dev/init:/docker-entrypoint-initdb.d/"
+  eggserver-dev:
+    build:
+      context: .
+      dockerfile: eggserver/dockerfile-egg-dev
+    image: eggserver-dev
+    container_name: eggserver-dev
+    restart: always
+    networks:
+      - app-tier
+    ports:
+      - '7001:7001'
+    volumes:
+      - "./eggserver:/home/nodejs/egg/start-with-egg/"
+    depends_on:
+      - mysqlserver-dev
+#  nginx:
+#    build:
+#      context: .
+#      dockerfile: docker-file/nginx/dockerfile-nginx
+#    container_name: nginxserver
+#    image: nginxserver
+#    restart: always
+#    ports:
+#      - 2306:80
+#      - 443:443
+#    privileged: true
+#    volumes:
+#      - "./docker-file/nginx/conf.d/:/etc/nginx/"
+#      - "./docker-file/nginx/html/:/usr/share/nginx/html/"
+#      - "./docker-file/nginx/logs/:/var/log/nginx/"
+#    networks:
+#      - app-tier

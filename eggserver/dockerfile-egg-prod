@@ -1,0 +1,7 @@
+FROM node:10.17.0
+MAINTAINER yujunmiao
+RUN mkdir -p /home/nodejs/egg/start-with-egg-prod/
+WORKDIR /home/nodejs/egg/start-with-egg-prod/
+COPY ./eggserver /home/nodejs/egg/start-with-egg-prod/
+EXPOSE 7002
+CMD ["npm", "run", "start:docker"]

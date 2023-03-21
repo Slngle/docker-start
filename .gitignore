@@ -1,0 +1,5 @@
+eggserver/node_modules
+mysql/dev/db
+mysql/prod/db
+.DS_Store
+.idea/
